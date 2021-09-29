@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manager.client.ui.SetUpPinController">
+   <children>
+      <Label layoutX="201.0" layoutY="40.0" text="Registration complete.">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="163.0" layoutY="77.0" text="Now choose pin code to stay logged on this device." />
+      <Label layoutX="201.0" layoutY="146.0" text="Pin Code:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="pin1" layoutX="288.0" layoutY="146.0" />
+       <Label layoutX="201.0" layoutY="187.0" text="Repeat:">
+           <font>
+               <Font size="16.0" />
+           </font>
+       </Label>
+       <PasswordField fx:id="pin2" layoutX="288.0" layoutY="187.0" />
+      <Button layoutX="254.0" layoutY="263.0" mnemonicParsing="false" onAction="#submit" text="Submit">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Label layoutX="286.0" layoutY="327.0" text="Label" fx:id="label"/>
+   </children>
+</AnchorPane>
