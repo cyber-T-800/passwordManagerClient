@@ -1,8 +1,5 @@
 package com.manager.client
 
-import java.security.PrivateKey
-
-
 data class Client (
     var id : Long,
     var username : String,

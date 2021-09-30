@@ -11,6 +11,7 @@ module com.manager.client.ui {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires client;
+    requires com.google.gson;
 
     opens com.manager.client.ui to javafx.fxml;
     exports com.manager.client.ui;

@@ -20,8 +20,11 @@ class LoginController {
     @FXML
     private lateinit var username : TextField
 
+
+    //Login client on server
     @FXML
     fun login(actionEvent: ActionEvent){
+        //check if fields are not empty
         if(password.text == "" || username.text == ""){
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
@@ -31,9 +34,21 @@ class LoginController {
             return
         }
 
+        //create client from fields, send it to server and receive stay-login key
         val client = Client(0, username.text, password.text, "")
         val key = WebClientManagerClient().login(client)
 
+        //if cannot connect server
+        if(key == "-1"){
+            var alert = Alert(Alert.AlertType.WARNING)
+            alert.title = "Connection Error"
+            alert.headerText = "Can't connect to server! Please try again later."
+
+            alert.showAndWait()
+            return
+        }
+
+        //if client not exists
         if(key == "0"){
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
@@ -43,8 +58,8 @@ class LoginController {
             return
         }
 
-        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("set-up-pin-view.fxml"))
-
+        //if is everything in order, change view to set-up-pin view
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("set-up-pin-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
         fxmlLoader.getController<SetUpPinController>().key = key
@@ -52,9 +67,10 @@ class LoginController {
         stage.show()
     }
 
+    //change view to sign up
     @FXML
     fun signUp(actionEvent: ActionEvent){
-        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("sign-up-view.fxml"))
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("sign-up-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
         stage.scene = scene

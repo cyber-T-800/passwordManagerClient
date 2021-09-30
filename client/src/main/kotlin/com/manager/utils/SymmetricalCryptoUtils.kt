@@ -7,8 +7,10 @@ import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
+
 object SymmetricalCryptoUtils {
 
+    //Random value for creating 
     var salt = "fdioanindvninioaneeiofeoovn"
 
     fun getKeyFromPassword(password: String) : SecretKey {

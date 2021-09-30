@@ -19,8 +19,13 @@ class SetUpPinController {
     lateinit var label : Label
 
 
+    /*
+        set up pin for stay-login on device
+        save logged client on device
+     */
     @FXML
     fun submit(){
+        //checks if fields are not empty
         if(pin1.text == "" || pin2.text == ""){
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
@@ -29,6 +34,7 @@ class SetUpPinController {
             alert.showAndWait()
             return
         }
+        //checks if pin are equal
         if (pin1.text != pin2.text){
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
@@ -37,7 +43,7 @@ class SetUpPinController {
             alert.showAndWait()
             return
         }
-
+        //checks if pin length is at least 4 character long
         if(pin1.text.length < 4){
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
@@ -46,7 +52,7 @@ class SetUpPinController {
             alert.showAndWait()
             return
         }
-
+        //checks if pin isn't longer than 8 characters
         if(pin1.text.length > 8){
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
@@ -56,10 +62,22 @@ class SetUpPinController {
             return
         }
 
+        //send pin to server, return private key of client
         var privateKey = WebClientManagerClient().registerSetPin(ClientPinSetUp(key, pin1.text))
+
+        //if can't connect to server
+        if(key == "-1"){
+            var alert = Alert(Alert.AlertType.WARNING)
+            alert.title = "Connection Error"
+            alert.headerText = "Can't connect to server! Please try again later."
+
+            alert.showAndWait()
+            return
+        }
 
 
         TODO("implement change screen")
+        TODO("implement save client to device")
     }
 
 

@@ -87,6 +87,14 @@
       <version>1.0-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.8</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>
@@ -111,7 +119,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>com.manager.client.ui/com.manager.client.ui.HelloApplication</mainClass>
+              <mainClass>com.manager.client.ui/com.manager.client.ui.PasswordManagerUI</mainClass>
             </configuration>
           </execution>
         </executions>
@@ -139,6 +147,9 @@
         <configuration>
           <jvmTarget>11</jvmTarget>
         </configuration>
-      </plugin>    </plugins>
+      </plugin>
+
+
+        </plugins>
   </build>
 </project>
