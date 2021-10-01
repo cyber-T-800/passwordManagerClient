@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.manager.client.ui.controllers.login.LoginWithPinController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manager.client.ui.controllers.login.LoginWithPinController">
+   <children>
+      <Label fx:id="label" alignment="CENTER" layoutX="0" layoutY="94.0" prefWidth="600" style="-fx-text-alignment: center" text="Type Pin code for ">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="pin" layoutX="226.0" layoutY="188.0" />
+      <Button layoutX="273.0" layoutY="244.0" mnemonicParsing="false" text="Submit" onAction="#submit"/>
 
+   </children>
 </AnchorPane>

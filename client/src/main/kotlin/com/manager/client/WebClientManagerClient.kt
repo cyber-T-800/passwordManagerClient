@@ -66,4 +66,17 @@ class WebClientManagerClient {
 
         return result
     }
+
+    fun loginWithPin(clientPinSetUp: ClientPinSetUp) : String{
+        var result : String?
+
+        try{
+            result = webClient.post().uri("client/login/pin").body(Mono.just(clientPinSetUp), ClientPinSetUp::class.java).retrieve()
+                .bodyToMono(String::class.java).block()
+        }catch (e : WebClientRequestException){
+            return "-1"
+        }
+
+        return result
+    }
 }

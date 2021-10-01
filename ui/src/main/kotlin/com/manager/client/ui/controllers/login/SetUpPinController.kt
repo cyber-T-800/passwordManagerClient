@@ -27,8 +27,6 @@ class SetUpPinController {
     lateinit var pin1 : PasswordField
     @FXML
     lateinit var pin2 : PasswordField
-    @FXML
-    lateinit var label : Label
 
 
     /*
@@ -111,10 +109,6 @@ class SetUpPinController {
             LoggedClients.getClients()[it.key] = Client(0, it.username, it.password, privateKeyFromServer)
             LoggedClients.save()
         }
-
-
-
-
 
         //change to main view
         val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("main-view.fxml"))
