@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono
  */
 class WebClientManagerClient {
 
-    val webClient : WebClient = WebClient.create("http://localhost:8080/api/")
+    val webClient : WebClient = WebClient.create("http://localhost:8080/api/client/")
 
     /*
         register client to server
@@ -23,7 +23,7 @@ class WebClientManagerClient {
         var result : ClientKeyIdData?
 
         try{
-           result = webClient.post().uri("client/register").body(Mono.just(client), Client::class.java).retrieve().bodyToMono(
+           result = webClient.post().uri("register").body(Mono.just(client), Client::class.java).retrieve().bodyToMono(
                 ClientKeyIdData::class.java).block()
         }catch (e : WebClientRequestException){
             return ClientKeyIdData(0, "-1")
@@ -41,7 +41,7 @@ class WebClientManagerClient {
         var result : String?
 
         try{
-            result = webClient.post().uri("client/register/pin").body(Mono.just(pinSetUp), ClientPinSetUp::class.java).retrieve().bodyToMono(
+            result = webClient.post().uri("register/pin").body(Mono.just(pinSetUp), ClientPinSetUp::class.java).retrieve().bodyToMono(
                 String::class.java).block()
         }catch (e : WebClientRequestException){
             return "-1"
@@ -59,7 +59,7 @@ class WebClientManagerClient {
         var result : ClientKeyIdData
 
         try{
-            result = webClient.post().uri("client/login").body(Mono.just(client), Client::class.java).retrieve()
+            result = webClient.post().uri("login").body(Mono.just(client), Client::class.java).retrieve()
                 .bodyToMono(ClientKeyIdData::class.java).block()
         }catch (e : WebClientRequestException){
             return ClientKeyIdData(0, "-1")
@@ -80,7 +80,7 @@ class WebClientManagerClient {
         var result : String?
 
         try{
-            result = webClient.post().uri("client/login/pin").body(Mono.just(clientPinSetUp), ClientPinSetUp::class.java).retrieve()
+            result = webClient.post().uri("login/pin").body(Mono.just(clientPinSetUp), ClientPinSetUp::class.java).retrieve()
                 .bodyToMono(String::class.java).block()
         }catch (e : WebClientRequestException){
             return "-1"
