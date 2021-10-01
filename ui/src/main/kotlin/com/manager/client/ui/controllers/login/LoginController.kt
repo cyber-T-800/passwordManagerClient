@@ -37,6 +37,28 @@ class LoginController {
             return
         }
 
+        //check if account isn't already logged
+        for(c in LoggedClients.getClients()){
+            if(c.value.username == username.text){
+                var alert = Alert(Alert.AlertType.WARNING)
+                alert.title = "Warning"
+                alert.headerText = "Account already logged, please continue to type pin code"
+                alert.showAndWait()
+                LoggedClient.let {
+                    it.key = c.key
+                    it.username = c.value.username
+                    it.password = c.value.password
+                }
+                //if already logged, change view to log in with pin
+                val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("login-with-pin-view.fxml"))
+                val stage = (actionEvent.source as Node).scene.window as Stage
+                val scene = Scene(fxmlLoader.load())
+                stage.scene = scene
+                stage.show()
+                return
+            }
+        }
+
         //create client from fields, send it to server and receive stay-login key
         val client = Client(0, username.text, password.text, "")
         val key = WebClientManagerClient().login(client)
