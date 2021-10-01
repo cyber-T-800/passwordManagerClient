@@ -2,8 +2,8 @@ package com.manager.client.ui.controllers.login
 
 import com.example.manager.utils.AsymmetricalCryptoUtils
 import com.example.manager.utils.SymmetricalCryptoUtils
-import com.manager.client.Client
-import com.manager.client.ClientPinSetUp
+import com.manager.client.client.Client
+import com.manager.client.client.ClientPinSetUp
 import com.manager.client.WebClientManagerClient
 import com.manager.client.ui.PasswordManagerUI
 import com.manager.client.ui.instances.LoggedClient
@@ -14,10 +14,8 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.control.Alert
-import javafx.scene.control.Label
 import javafx.scene.control.PasswordField
 import javafx.stage.Stage
-import java.nio.charset.StandardCharsets
 import java.security.KeyPair
 import java.security.MessageDigest
 import java.util.*
@@ -106,7 +104,7 @@ class SetUpPinController {
 
 
             //save logged clients to device
-            LoggedClients.getClients()[it.key] = Client(0, it.username, it.password, privateKeyFromServer)
+            LoggedClients.getClients()[it.key] = Client(it.id, it.username, it.password, privateKeyFromServer)
             LoggedClients.save()
         }
 

@@ -1,4 +1,4 @@
-package com.manager.client
+package com.manager.client.client
 
 data class Client (
     var id : Long,

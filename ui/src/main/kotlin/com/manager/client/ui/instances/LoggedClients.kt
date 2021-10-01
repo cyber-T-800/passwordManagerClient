@@ -2,7 +2,7 @@ package com.manager.client.ui.instances
 
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
-import com.manager.client.Client
+import com.manager.client.client.Client
 import java.io.File
 
 /*

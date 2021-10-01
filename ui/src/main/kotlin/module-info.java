@@ -2,9 +2,9 @@ module com.manager.client.ui {
     requires kotlin.stdlib;
     requires javafx.graphics;
     requires javafx.fxml;
-    requires client;
     requires javafx.controls;
     requires com.google.gson;
+    requires client;
 
     opens com.manager.client.ui to javafx.fxml, com.google.gson;
     opens com.manager.client.ui.controllers.main to com.google.gson, javafx.fxml;

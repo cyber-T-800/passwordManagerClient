@@ -1,6 +1,6 @@
 package com.manager.client.ui.controllers.login
 
-import com.manager.client.Client
+import com.manager.client.client.Client
 import com.manager.client.WebClientManagerClient
 import com.manager.client.ui.PasswordManagerUI
 import com.manager.client.ui.instances.LoggedClient
@@ -61,10 +61,10 @@ class LoginController {
 
         //create client from fields, send it to server and receive stay-login key
         val client = Client(0, username.text, password.text, "")
-        val key = WebClientManagerClient().login(client)
+        val clientKeyIdData = WebClientManagerClient().login(client)
 
         //if cannot connect server
-        if(key == "-1"){
+        if(clientKeyIdData.key == "-1"){
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Connection Error"
             alert.headerText = "Can't connect to server! Please try again later."
@@ -74,7 +74,7 @@ class LoginController {
         }
 
         //if client not exists
-        if(key == "0"){
+        if(clientKeyIdData.key == "0"){
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
             alert.headerText = "Client with this combination of username and password doesn't exists"
@@ -85,7 +85,8 @@ class LoginController {
 
         //create instance of logged client
         LoggedClient.let {
-            it.key = key
+            it.key = clientKeyIdData.key
+            it.id = clientKeyIdData.id
             it.username = client.username
         }
 

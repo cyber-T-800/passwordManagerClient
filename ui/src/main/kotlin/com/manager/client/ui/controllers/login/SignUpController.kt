@@ -1,6 +1,6 @@
 package com.manager.client.ui.controllers.login
 
-import com.manager.client.Client
+import com.manager.client.client.Client
 import com.manager.client.WebClientManagerClient
 import com.manager.client.ui.PasswordManagerUI
 import com.manager.client.ui.instances.LoggedClient
@@ -59,11 +59,11 @@ class SignUpController {
         var client = Client(0, username.text, password.text, "")
 
         //create client from fields, send it to server and receive stay-login key
-        var key = WebClientManagerClient().register(client)
+        var clientKeyIdData = WebClientManagerClient().register(client)
 
 
         //if cannot connect server
-        if(key == "-1"){
+        if(clientKeyIdData.key == "-1"){
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Connection Error"
             alert.headerText = "Can't connect to server! Please try again later."
@@ -73,7 +73,7 @@ class SignUpController {
         }
 
         //if username is already taken
-        if(key == "0"){
+        if(clientKeyIdData.key == "0"){
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
             alert.headerText = "Username is used by someone already, please type another"
@@ -84,7 +84,8 @@ class SignUpController {
 
         //create instance of logged client
         LoggedClient.let {
-            it.key = key
+            it.key = clientKeyIdData.key
+            it.id = clientKeyIdData.id
             it.username = client.username
         }
 

@@ -1,6 +1,6 @@
 package com.manager.client.ui.controllers.login
 
-import com.manager.client.Client
+import com.manager.client.client.Client
 import com.manager.client.ui.PasswordManagerUI
 import com.manager.client.ui.instances.LoggedClient
 import com.manager.client.ui.instances.LoggedClients

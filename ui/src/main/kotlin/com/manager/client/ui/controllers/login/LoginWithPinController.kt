@@ -1,7 +1,6 @@
 package com.manager.client.ui.controllers.login
 
-import com.manager.client.Client
-import com.manager.client.ClientPinSetUp
+import com.manager.client.client.ClientPinSetUp
 import com.manager.client.WebClientManagerClient
 import com.manager.client.ui.PasswordManagerUI
 import com.manager.client.ui.instances.LoggedClient
