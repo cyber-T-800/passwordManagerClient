@@ -65,7 +65,6 @@ class LoginController {
         LoggedClient.let {
             it.key = key
             it.username = client.username
-            it.password = client.password
         }
 
         //if is everything in order, change view to set-up-pin view

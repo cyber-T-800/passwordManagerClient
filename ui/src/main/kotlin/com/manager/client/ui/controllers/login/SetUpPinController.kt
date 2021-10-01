@@ -19,6 +19,7 @@ import javafx.scene.control.PasswordField
 import javafx.stage.Stage
 import java.nio.charset.StandardCharsets
 import java.security.KeyPair
+import java.security.MessageDigest
 import java.util.*
 
 class SetUpPinController {
@@ -74,7 +75,7 @@ class SetUpPinController {
         }
 
         //send pin to server, return private key of client
-        val privateKey = WebClientManagerClient().registerSetPin(ClientPinSetUp(LoggedClient.key, pin1.text))
+        val privateKeyFromServer = WebClientManagerClient().registerSetPin(ClientPinSetUp(LoggedClient.key, pin1.text))
 
         //if can't connect to server
         if(LoggedClient.key == "-1"){
@@ -89,22 +90,25 @@ class SetUpPinController {
 
 
         LoggedClient.let {
+            it.password = pin1.text
             val secretKey = SymmetricalCryptoUtils.getKeyFromPassword(it.password)
-            val privateKeyInBytes = SymmetricalCryptoUtils.decryptMessage(secretKey, privateKey)
+
+            val privateKeyInBytes = SymmetricalCryptoUtils.decryptMessage(secretKey, privateKeyFromServer)
 
             //save decrypted crypto keys to instance
             val privateKey = AsymmetricalCryptoUtils.privateKeyFromBytes(privateKeyInBytes)
             var publicKey = AsymmetricalCryptoUtils.publicKeyFromPrivate(privateKey)
             it.keyPair = KeyPair(publicKey, privateKey)
 
-            TODO("hash pin")
-            //save pin as hash
-           // it.password = Base64.getEncoder().encodeToString(Hashing.sha256().hashString(it.password, StandardCharsets.UTF_8).asBytes())
+
+           val bytes = MessageDigest
+                .getInstance("SHA-256")
+                .digest(it.password.toByteArray())
+            it.password = Base64.getEncoder().encodeToString(bytes)
 
 
-            var privateKeyInBase64 = Base64.getEncoder().encodeToString(privateKeyInBytes)
-            //save
-            LoggedClients.getClients()[it.key] = Client(0, it.username, it.password, privateKeyInBase64)
+            //save logged clients to device
+            LoggedClients.getClients()[it.key] = Client(0, it.username, it.password, privateKeyFromServer)
             LoggedClients.save()
         }
 

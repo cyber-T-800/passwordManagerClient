@@ -86,7 +86,6 @@ class SignUpController {
         LoggedClient.let {
             it.key = key
             it.username = client.username
-            it.password = client.password
         }
 
 
