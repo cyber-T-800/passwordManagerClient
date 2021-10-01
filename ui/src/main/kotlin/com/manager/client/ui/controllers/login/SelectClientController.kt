@@ -1,6 +1,9 @@
-package com.manager.client.ui
+package com.manager.client.ui.controllers.login
 
 import com.manager.client.Client
+import com.manager.client.ui.PasswordManagerUI
+import com.manager.client.ui.instances.LoggedClient
+import com.manager.client.ui.instances.LoggedClients
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
@@ -22,7 +25,7 @@ class SelectClientController {
     @FXML
     fun initialize(){
         listOfClients.columns[0].cellValueFactory  = PropertyValueFactory<Client, String>("username")
-        listOfClients.items.addAll(PasswordManagerUI.loggedClients.clients.values)
+        listOfClients.items.addAll(LoggedClients.getClients().values)
     }
 
 
@@ -34,10 +37,17 @@ class SelectClientController {
     fun clickItem(mouseEvent: MouseEvent) {
         var selectedClient: Client = listOfClients.selectionModel.selectedItem
 
+        LoggedClient.let {
+            it.client = selectedClient
+            for(c in LoggedClients.getClients()){
+                if(c.value.equals(selectedClient))
+                    it.key = c.key
+            }
+        }
+
         val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("login-with-pin-view.fxml"))
         val stage = (mouseEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
-        fxmlLoader.getController<LoginWithPinController>().selectedClient = selectedClient
         stage.scene = scene
         stage.show()
     }

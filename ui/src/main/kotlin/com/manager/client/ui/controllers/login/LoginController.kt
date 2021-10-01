@@ -1,7 +1,10 @@
-package com.manager.client.ui
+package com.manager.client.ui.controllers.login
 
 import com.manager.client.Client
 import com.manager.client.WebClientManagerClient
+import com.manager.client.ui.PasswordManagerUI
+import com.manager.client.ui.instances.LoggedClient
+import com.manager.client.ui.instances.LoggedClients
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
@@ -58,6 +61,12 @@ class LoginController {
             return
         }
 
+        //create instance of logged client
+        LoggedClient.let {
+            it.client = client
+            it.key = key
+        }
+
         //if is everything in order, change view to set-up-pin view
         val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("set-up-pin-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage
@@ -83,7 +92,7 @@ class LoginController {
         val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("select-client-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
-        if( PasswordManagerUI.loggedClients.clients.size == 0 ){
+        if( LoggedClients.getClients().size == 0 ){
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
             alert.headerText = "Seems like no account is logged, please log in to continue."

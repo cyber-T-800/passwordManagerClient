@@ -15,4 +15,6 @@ module com.manager.client.ui {
 
     opens com.manager.client.ui to javafx.fxml, com.google.gson;
     exports com.manager.client.ui;
+    exports com.manager.client.ui.controllers.main;
+    opens com.manager.client.ui.controllers.main to com.google.gson, javafx.fxml;
 }

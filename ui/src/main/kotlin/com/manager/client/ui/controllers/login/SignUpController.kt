@@ -1,7 +1,9 @@
-package com.manager.client.ui
+package com.manager.client.ui.controllers.login
 
 import com.manager.client.Client
 import com.manager.client.WebClientManagerClient
+import com.manager.client.ui.PasswordManagerUI
+import com.manager.client.ui.instances.LoggedClient
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
@@ -54,8 +56,10 @@ class SignUpController {
             return
         }
 
+        var client = Client(0, username.text, password.text, "")
+
         //create client from fields, send it to server and receive stay-login key
-        var key = WebClientManagerClient().register(Client(0, username.text, password.text, ""))
+        var key = WebClientManagerClient().register(client)
 
 
         //if cannot connect server
@@ -76,6 +80,12 @@ class SignUpController {
 
             alert.showAndWait()
             return
+        }
+
+        //create instance of logged client
+        LoggedClient.let {
+            it.client = client
+            it.key = key
         }
 
 

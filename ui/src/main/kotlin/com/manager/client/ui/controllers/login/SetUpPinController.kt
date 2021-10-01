@@ -1,11 +1,18 @@
-package com.manager.client.ui
+package com.manager.client.ui.controllers.login
 
 import com.manager.client.ClientPinSetUp
 import com.manager.client.WebClientManagerClient
+import com.manager.client.ui.PasswordManagerUI
+import com.manager.client.ui.instances.LoggedClients
+import javafx.event.ActionEvent
 import javafx.fxml.FXML
+import javafx.fxml.FXMLLoader
+import javafx.scene.Node
+import javafx.scene.Scene
 import javafx.scene.control.Alert
 import javafx.scene.control.Label
 import javafx.scene.control.PasswordField
+import javafx.stage.Stage
 
 class SetUpPinController {
     lateinit var key : String
@@ -23,7 +30,7 @@ class SetUpPinController {
         save logged client on device
      */
     @FXML
-    fun submit(){
+    fun submit(actionEvent : ActionEvent){
         //checks if fields are not empty
         if(pin1.text == "" || pin2.text == ""){
             var alert = Alert(Alert.AlertType.WARNING)
@@ -74,9 +81,14 @@ class SetUpPinController {
             return
         }
 
+        LoggedClients.save()
 
-        TODO("implement change screen")
-        TODO("implement save client to device")
+        //change to main view
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("main-view.fxml"))
+        val stage = (actionEvent.source as Node).scene.window as Stage
+        val scene = Scene(fxmlLoader.load())
+        stage.scene = scene
+        stage.show()
     }
 
 
