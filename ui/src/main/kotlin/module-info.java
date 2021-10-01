@@ -1,20 +1,18 @@
 module com.manager.client.ui {
-    requires javafx.controls;
-    requires javafx.fxml;
-    requires javafx.web;
     requires kotlin.stdlib;
-
-    requires org.controlsfx.controls;
-    requires com.dlsc.formsfx;
-    requires validatorfx;
-    requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
+    requires javafx.graphics;
+    requires javafx.fxml;
     requires client;
+    requires javafx.controls;
     requires com.google.gson;
 
     opens com.manager.client.ui to javafx.fxml, com.google.gson;
+    opens com.manager.client.ui.controllers.main to com.google.gson, javafx.fxml;
+    opens com.manager.client.ui.controllers.login to javafx.fxml;
+    opens com.manager.client.ui.instances to com.google.gson;
     exports com.manager.client.ui;
     exports com.manager.client.ui.controllers.main;
-    opens com.manager.client.ui.controllers.main to com.google.gson, javafx.fxml;
+    exports com.manager.client.ui.controllers.login;
+    exports com.manager.client.ui.instances;
+
 }

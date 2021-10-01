@@ -84,8 +84,9 @@ class SignUpController {
 
         //create instance of logged client
         LoggedClient.let {
-            it.client = client
             it.key = key
+            it.username = client.username
+            it.password = client.password
         }
 
 
@@ -93,7 +94,6 @@ class SignUpController {
         val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("set-up-pin-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
-        fxmlLoader.getController<SetUpPinController>().key = key
         stage.scene = scene
         stage.show()
 

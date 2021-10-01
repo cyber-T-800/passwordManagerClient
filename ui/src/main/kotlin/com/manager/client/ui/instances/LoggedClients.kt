@@ -5,6 +5,10 @@ import com.google.gson.JsonSyntaxException
 import com.manager.client.Client
 import java.io.File
 
+/*
+    instance of all logged clients
+    used primary to load and save clients on device
+ */
 object LoggedClients {
     private const val loggedFilePath = "ui/src/main/resources/com/manager/client/ui/logged.json"
 

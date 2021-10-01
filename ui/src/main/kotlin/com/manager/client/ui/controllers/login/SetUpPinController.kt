@@ -1,8 +1,12 @@
 package com.manager.client.ui.controllers.login
 
+import com.example.manager.utils.AsymmetricalCryptoUtils
+import com.example.manager.utils.SymmetricalCryptoUtils
+import com.manager.client.Client
 import com.manager.client.ClientPinSetUp
 import com.manager.client.WebClientManagerClient
 import com.manager.client.ui.PasswordManagerUI
+import com.manager.client.ui.instances.LoggedClient
 import com.manager.client.ui.instances.LoggedClients
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
@@ -13,10 +17,11 @@ import javafx.scene.control.Alert
 import javafx.scene.control.Label
 import javafx.scene.control.PasswordField
 import javafx.stage.Stage
+import java.nio.charset.StandardCharsets
+import java.security.KeyPair
+import java.util.*
 
 class SetUpPinController {
-    lateinit var key : String
-
     @FXML
     lateinit var pin1 : PasswordField
     @FXML
@@ -33,7 +38,7 @@ class SetUpPinController {
     fun submit(actionEvent : ActionEvent){
         //checks if fields are not empty
         if(pin1.text == "" || pin2.text == ""){
-            var alert = Alert(Alert.AlertType.WARNING)
+            val alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
             alert.headerText = "Fields can't be empty"
 
@@ -42,7 +47,7 @@ class SetUpPinController {
         }
         //checks if pin are equal
         if (pin1.text != pin2.text){
-            var alert = Alert(Alert.AlertType.WARNING)
+            val alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
             alert.headerText = "Pins are not equal!"
 
@@ -51,7 +56,7 @@ class SetUpPinController {
         }
         //checks if pin length is at least 4 character long
         if(pin1.text.length < 4){
-            var alert = Alert(Alert.AlertType.WARNING)
+            val alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
             alert.headerText = "Pin can't be shorter that 4 characters!"
 
@@ -60,7 +65,7 @@ class SetUpPinController {
         }
         //checks if pin isn't longer than 8 characters
         if(pin1.text.length > 8){
-            var alert = Alert(Alert.AlertType.WARNING)
+            val alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
             alert.headerText = "Pin can't be longer that 8 characters!"
 
@@ -69,11 +74,11 @@ class SetUpPinController {
         }
 
         //send pin to server, return private key of client
-        var privateKey = WebClientManagerClient().registerSetPin(ClientPinSetUp(key, pin1.text))
+        val privateKey = WebClientManagerClient().registerSetPin(ClientPinSetUp(LoggedClient.key, pin1.text))
 
         //if can't connect to server
-        if(key == "-1"){
-            var alert = Alert(Alert.AlertType.WARNING)
+        if(LoggedClient.key == "-1"){
+            val alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Connection Error"
             alert.headerText = "Can't connect to server! Please try again later."
 
@@ -81,7 +86,31 @@ class SetUpPinController {
             return
         }
 
-        LoggedClients.save()
+
+
+        LoggedClient.let {
+            val secretKey = SymmetricalCryptoUtils.getKeyFromPassword(it.password)
+            val privateKeyInBytes = SymmetricalCryptoUtils.decryptMessage(secretKey, privateKey)
+
+            //save decrypted crypto keys to instance
+            val privateKey = AsymmetricalCryptoUtils.privateKeyFromBytes(privateKeyInBytes)
+            var publicKey = AsymmetricalCryptoUtils.publicKeyFromPrivate(privateKey)
+            it.keyPair = KeyPair(publicKey, privateKey)
+
+            TODO("hash pin")
+            //save pin as hash
+           // it.password = Base64.getEncoder().encodeToString(Hashing.sha256().hashString(it.password, StandardCharsets.UTF_8).asBytes())
+
+
+            var privateKeyInBase64 = Base64.getEncoder().encodeToString(privateKeyInBytes)
+            //save
+            LoggedClients.getClients()[it.key] = Client(0, it.username, it.password, privateKeyInBase64)
+            LoggedClients.save()
+        }
+
+
+
+
 
         //change to main view
         val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("main-view.fxml"))

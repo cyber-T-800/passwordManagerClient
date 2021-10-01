@@ -38,7 +38,9 @@ class SelectClientController {
         var selectedClient: Client = listOfClients.selectionModel.selectedItem
 
         LoggedClient.let {
-            it.client = selectedClient
+            it.username = selectedClient.username
+            it.password = selectedClient.password
+
             for(c in LoggedClients.getClients()){
                 if(c.value.equals(selectedClient))
                     it.key = c.key
