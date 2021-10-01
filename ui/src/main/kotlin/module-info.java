@@ -13,6 +13,6 @@ module com.manager.client.ui {
     requires client;
     requires com.google.gson;
 
-    opens com.manager.client.ui to javafx.fxml;
+    opens com.manager.client.ui to javafx.fxml, com.google.gson;
     exports com.manager.client.ui;
 }

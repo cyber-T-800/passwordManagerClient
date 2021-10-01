@@ -76,4 +76,24 @@ class LoginController {
         stage.scene = scene
         stage.show()
     }
+
+    //Change view to select logged account
+    @FXML
+    fun selectAccount(actionEvent: ActionEvent) {
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("select-client-view.fxml"))
+        val stage = (actionEvent.source as Node).scene.window as Stage
+        val scene = Scene(fxmlLoader.load())
+        if( PasswordManagerUI.loggedClients.clients.size == 0 ){
+            var alert = Alert(Alert.AlertType.WARNING)
+            alert.title = "Warning"
+            alert.headerText = "Seems like no account is logged, please log in to continue."
+
+            alert.showAndWait()
+            return
+        }else{
+            stage.scene = scene
+            stage.show()
+        }
+
+    }
 }

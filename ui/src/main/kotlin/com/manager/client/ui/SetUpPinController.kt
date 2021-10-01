@@ -1,6 +1,5 @@
 package com.manager.client.ui
 
-import com.dlsc.formsfx.model.structure.StringField
 import com.manager.client.ClientPinSetUp
 import com.manager.client.WebClientManagerClient
 import javafx.fxml.FXML

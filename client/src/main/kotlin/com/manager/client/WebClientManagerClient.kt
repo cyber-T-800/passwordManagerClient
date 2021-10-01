@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono
  */
 class WebClientManagerClient {
 
-    val webClient : WebClient = WebClient.create("http://localhost:8080/api")
+    val webClient : WebClient = WebClient.create("http://localhost:8080/api/")
 
     /*
         register client to server

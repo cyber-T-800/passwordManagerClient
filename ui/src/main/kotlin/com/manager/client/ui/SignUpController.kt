@@ -12,7 +12,6 @@ import javafx.scene.control.Alert
 import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
 import javafx.stage.Stage
-import java.net.ConnectException
 
 class SignUpController {
 
@@ -88,5 +87,15 @@ class SignUpController {
         stage.scene = scene
         stage.show()
 
+    }
+
+
+    //change view to login
+    fun logIn(actionEvent: ActionEvent) {
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("login-view.fxml"))
+        val stage = (actionEvent.source as Node).scene.window as Stage
+        val scene = Scene(fxmlLoader.load())
+        stage.scene = scene
+        stage.show()
     }
 }
