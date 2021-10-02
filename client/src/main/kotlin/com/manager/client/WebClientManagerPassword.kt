@@ -7,6 +7,7 @@ import com.manager.client.password.PasswordRequestData
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientRequestException
 import reactor.core.publisher.Mono
+import javax.security.auth.login.LoginContext
 
 
 class WebClientManagerPassword {
@@ -15,14 +16,13 @@ class WebClientManagerPassword {
 
     /*
         save password on server
-        return -1 if it can't connect to server
-        return 0 if password is saved successfully
-        return 1 if stay-logged key is invalid
-        return 2 if pin code is invalid
+        return password id
+        return 0 if stay-login key or pin is invalid
+        return -1 if it can't connect server
      */
-    fun save(passwordRequestData: PasswordRequestData) : Int{
-        val result : Int = try{
-            webClient.post().uri("save").body(passwordRequestData, passwordRequestData::class.java).retrieve().bodyToMono(Int::class.java).block()
+    fun save(passwordRequestData: PasswordRequestData) : Long{
+        val result : Long = try{
+            webClient.post().uri("save").body(Mono.just(passwordRequestData), passwordRequestData::class.java).retrieve().bodyToMono(Long::class.java).block()
         }catch (e : WebClientRequestException){
             -1
         }
