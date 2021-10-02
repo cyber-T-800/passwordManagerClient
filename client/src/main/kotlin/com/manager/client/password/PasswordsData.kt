@@ -1,8 +1,8 @@
-package com.manager.client.ui.instances.password
+package com.manager.client.password
 
 import com.manager.client.password.Password
 
-data class SavedPasswordsData(
+data class PasswordsData(
     var passwords : List<Password>
 ){
     constructor() : this(listOf())

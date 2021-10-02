@@ -2,6 +2,7 @@ package com.manager.client.ui.instances.password
 
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import com.manager.client.password.PasswordsData
 import java.io.File
 
 object SavedPasswords {
@@ -9,7 +10,7 @@ object SavedPasswords {
     private const val savedFilePath = "ui/src/main/resources/com/manager/client/ui/savedData/saved-passwords.json"
 
 
-    var savedPasswordsData : SavedPasswordsData = SavedPasswordsData()
+    var savedPasswordsData : PasswordsData = PasswordsData()
 
     fun save() {
         var saveFile = File(savedFilePath)
@@ -33,11 +34,11 @@ object SavedPasswords {
         }
         //confirms if content of file is in right form
         savedPasswordsData = try{
-            var saveFileCheck = Gson().fromJson(saveFile.readText(), SavedPasswordsData::class.java)
+            var saveFileCheck = Gson().fromJson(saveFile.readText(), PasswordsData::class.java)
             saveFileCheck!!
         }catch (e : JsonSyntaxException){
             saveFile.writeText(Gson().toJson(savedPasswordsData))
-            SavedPasswordsData()
+            PasswordsData()
         }
     }
 }
