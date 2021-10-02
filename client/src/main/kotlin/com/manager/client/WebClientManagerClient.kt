@@ -2,7 +2,7 @@ package com.manager.client
 
 import com.manager.client.client.Client
 import com.manager.client.client.ClientKeyIdData
-import com.manager.client.client.ClientPinSetUp
+import com.manager.client.client.ClientKeyPinData
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientRequestException
 import reactor.core.publisher.Mono
@@ -37,11 +37,11 @@ class WebClientManagerClient {
         return client private key
         return -1 if can't connect to server
     */
-    fun registerSetPin(pinSetUp: ClientPinSetUp) : String{
+    fun registerSetPin(pinSetUp: ClientKeyPinData) : String{
         var result : String?
 
         try{
-            result = webClient.post().uri("register/pin").body(Mono.just(pinSetUp), ClientPinSetUp::class.java).retrieve().bodyToMono(
+            result = webClient.post().uri("register/pin").body(Mono.just(pinSetUp), ClientKeyPinData::class.java).retrieve().bodyToMono(
                 String::class.java).block()
         }catch (e : WebClientRequestException){
             return "-1"
@@ -76,11 +76,11 @@ class WebClientManagerClient {
         return 0 if combination of stay-login key and pin is invalid
         return 1 if stay-login key is invalid
      */
-    fun loginWithPin(clientPinSetUp: ClientPinSetUp) : String{
+    fun loginWithPin(clientPinSetUp: ClientKeyPinData) : String{
         var result : String?
 
         try{
-            result = webClient.post().uri("login/pin").body(Mono.just(clientPinSetUp), ClientPinSetUp::class.java).retrieve()
+            result = webClient.post().uri("login/pin").body(Mono.just(clientPinSetUp), ClientKeyPinData::class.java).retrieve()
                 .bodyToMono(String::class.java).block()
         }catch (e : WebClientRequestException){
             return "-1"

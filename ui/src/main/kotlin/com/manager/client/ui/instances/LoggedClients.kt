@@ -24,6 +24,11 @@ object LoggedClients {
 
     }
 
+
+    /*
+        load logged clients from device
+        create file of logged clients, if it doesn't exist or is corrupted
+     */
     fun load(){
         var loggedFile = File(loggedFilePath)
         //confirms if file exists

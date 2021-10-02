@@ -3,7 +3,7 @@ package com.manager.client.ui.controllers.login
 import com.example.manager.utils.AsymmetricalCryptoUtils
 import com.example.manager.utils.SymmetricalCryptoUtils
 import com.manager.client.client.Client
-import com.manager.client.client.ClientPinSetUp
+import com.manager.client.client.ClientKeyPinData
 import com.manager.client.WebClientManagerClient
 import com.manager.client.ui.PasswordManagerUI
 import com.manager.client.ui.instances.LoggedClient
@@ -71,7 +71,7 @@ class SetUpPinController {
         }
 
         //send pin to server, return private key of client
-        val privateKeyFromServer = WebClientManagerClient().registerSetPin(ClientPinSetUp(LoggedClient.key, pin1.text))
+        val privateKeyFromServer = WebClientManagerClient().registerSetPin(ClientKeyPinData(LoggedClient.key, pin1.text))
 
         //if can't connect to server
         if(LoggedClient.key == "-1"){
@@ -100,11 +100,11 @@ class SetUpPinController {
            val bytes = MessageDigest
                 .getInstance("SHA-256")
                 .digest(it.password.toByteArray())
-            it.password = Base64.getEncoder().encodeToString(bytes)
+            val hashedPin = Base64.getEncoder().encodeToString(bytes)
 
 
             //save logged clients to device
-            LoggedClients.getClients()[it.key] = Client(it.id, it.username, it.password, privateKeyFromServer)
+            LoggedClients.getClients()[it.key] = Client(it.id, it.username, hashedPin, privateKeyFromServer)
             LoggedClients.save()
         }
 

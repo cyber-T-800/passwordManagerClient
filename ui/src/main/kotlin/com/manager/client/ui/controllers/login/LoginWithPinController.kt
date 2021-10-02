@@ -1,6 +1,6 @@
 package com.manager.client.ui.controllers.login
 
-import com.manager.client.client.ClientPinSetUp
+import com.manager.client.client.ClientKeyPinData
 import com.manager.client.WebClientManagerClient
 import com.manager.client.ui.PasswordManagerUI
 import com.manager.client.ui.instances.LoggedClient
@@ -36,7 +36,7 @@ class LoginWithPinController {
             alert.showAndWait()
             return
         }
-        val privateKey = WebClientManagerClient().loginWithPin(ClientPinSetUp(LoggedClient.key, pin.text))
+        val privateKey = WebClientManagerClient().loginWithPin(ClientKeyPinData(LoggedClient.key, pin.text))
         //if can't connect server
         if(privateKey == "-1"){
             var alert = Alert(Alert.AlertType.WARNING)
@@ -95,6 +95,10 @@ class LoginWithPinController {
                 return
             }
         }
+
+        //save non-hashed pin to logged client instance
+        LoggedClient.password = pin.text
+
 
         //if everything is in order, change to main view
         val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("main-view.fxml"))
