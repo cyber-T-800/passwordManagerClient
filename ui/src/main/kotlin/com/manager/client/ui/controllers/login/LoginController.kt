@@ -50,7 +50,7 @@ class LoginController {
                     it.password = c.value.password
                 }
                 //if already logged, change view to log in with pin
-                val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("login-with-pin-view.fxml"))
+                val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/login-with-pin-view.fxml"))
                 val stage = (actionEvent.source as Node).scene.window as Stage
                 val scene = Scene(fxmlLoader.load())
                 stage.scene = scene
@@ -91,7 +91,7 @@ class LoginController {
         }
 
         //if is everything in order, change view to set-up-pin view
-        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("set-up-pin-view.fxml"))
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/set-up-pin-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
         stage.scene = scene
@@ -101,7 +101,7 @@ class LoginController {
     //change view to sign up
     @FXML
     fun signUp(actionEvent: ActionEvent){
-        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("sign-up-view.fxml"))
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/sign-up-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
         stage.scene = scene
@@ -111,7 +111,7 @@ class LoginController {
     //Change view to select logged account
     @FXML
     fun selectAccount(actionEvent: ActionEvent) {
-        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("select-client-view.fxml"))
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/select-client-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
         if( LoggedClients.getClients().size == 0 ){

@@ -16,12 +16,12 @@ class PasswordManagerUI : Application() {
         var fxmlLoader : FXMLLoader
         var scene : Scene
         if(LoggedClients.getClients().size == 0){
-            fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("login-view.fxml"))
+            fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/login-view.fxml"))
             scene = Scene(fxmlLoader.load(), 600.0, 400.0)
         }
         //change to select client view
         else{
-            fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("select-client-view.fxml"))
+            fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/select-client-view.fxml"))
             scene = Scene(fxmlLoader.load(), 600.0, 400.0)
         }
         stage.title = "Password Manager"

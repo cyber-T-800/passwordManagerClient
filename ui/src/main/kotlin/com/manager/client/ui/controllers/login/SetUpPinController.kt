@@ -109,7 +109,7 @@ class SetUpPinController {
         }
 
         //change to main view
-        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("main-view.fxml"))
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/main-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
         stage.scene = scene

@@ -47,7 +47,7 @@ class SelectClientController {
             }
         }
 
-        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("login-with-pin-view.fxml"))
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/login-with-pin-view.fxml"))
         val stage = (mouseEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
         stage.scene = scene
@@ -56,7 +56,7 @@ class SelectClientController {
 
     //Change view to login
     fun backToLogin(actionEvent: ActionEvent) {
-        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("login-view.fxml"))
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/login-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
         stage.scene = scene
@@ -65,7 +65,7 @@ class SelectClientController {
 
     //Change view to sign up
     fun backToSignUp(actionEvent: ActionEvent) {
-        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("sign-up-view.fxml"))
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/sign-up-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
         stage.scene = scene

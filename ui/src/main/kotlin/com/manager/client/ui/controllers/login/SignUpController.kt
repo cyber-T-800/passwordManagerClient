@@ -91,7 +91,7 @@ class SignUpController {
 
 
         //if is everything in order, change view to set-up-pin view
-        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("set-up-pin-view.fxml"))
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/set-up-pin-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
         stage.scene = scene
@@ -102,7 +102,7 @@ class SignUpController {
 
     //change view to login
     fun logIn(actionEvent: ActionEvent) {
-        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("login-view.fxml"))
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/login-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
         stage.scene = scene

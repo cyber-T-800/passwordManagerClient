@@ -10,7 +10,7 @@ import java.io.File
     used primary to load and save clients on device
  */
 object LoggedClients {
-    private const val loggedFilePath = "ui/src/main/resources/com/manager/client/ui/logged.json"
+    private const val loggedFilePath = "ui/src/main/resources/com/manager/client/ui/savedData/logged.json"
 
     var loggedClients = LoggedClientsData()
 

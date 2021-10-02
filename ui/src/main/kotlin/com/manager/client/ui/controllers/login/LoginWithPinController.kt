@@ -80,14 +80,14 @@ class LoginWithPinController {
             LoggedClients.save()
             alert.showAndWait()
             if(LoggedClients.getClients().size == 0){
-                val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("login-view.fxml"))
+                val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/login-view.fxml"))
                 val stage = (actionEvent.source as Node).scene.window as Stage
                 val scene = Scene(fxmlLoader.load())
                 stage.scene = scene
                 stage.show()
                 return
             }else{
-                val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("select-client-view.fxml"))
+                val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/select-client-view.fxml"))
                 val stage = (actionEvent.source as Node).scene.window as Stage
                 val scene = Scene(fxmlLoader.load())
                 stage.scene = scene
@@ -101,7 +101,7 @@ class LoginWithPinController {
 
 
         //if everything is in order, change to main view
-        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("main-view.fxml"))
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/main-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage
         val scene = Scene(fxmlLoader.load())
         stage.scene = scene

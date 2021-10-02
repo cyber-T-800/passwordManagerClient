@@ -6,7 +6,7 @@ import java.io.File
 
 object SavedPasswords {
 
-    private const val savedFilePath = "ui/src/main/resources/com/manager/client/ui/saved-passwords.json"
+    private const val savedFilePath = "ui/src/main/resources/com/manager/client/ui/savedData/saved-passwords.json"
 
 
     var savedPasswordsData : SavedPasswordsData = SavedPasswordsData()
