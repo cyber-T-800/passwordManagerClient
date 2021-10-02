@@ -6,6 +6,7 @@ module client {
 
 
     opens com.manager.client.client to com.google.gson;
+    opens com.manager.client.password to com.google.gson;
     opens com.manager.client to com.google.gson;
     exports com.manager.client.client;
     exports com.manager.client.password;

@@ -50,7 +50,7 @@ class LoginWithPinController {
             val hashedPin = Base64.getEncoder().encodeToString(bytes)
 
             //if pin is invalid
-            if (hashedPin!== LoggedClient.password){
+            if (hashedPin != LoggedClient.password){
                 var alert = Alert(Alert.AlertType.WARNING)
                 alert.title = "Warning"
                 alert.headerText = "Pin code is invalid!"

@@ -4,9 +4,9 @@ package com.manager.client
 import com.manager.client.client.ClientKeyPinData
 import com.manager.client.password.Password
 import com.manager.client.password.PasswordRequestData
-import com.manager.client.password.PasswordsData
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientRequestException
+import reactor.core.publisher.Mono
 
 
 class WebClientManagerPassword {
@@ -33,9 +33,9 @@ class WebClientManagerPassword {
        get passwords by combination of client API key and pin code
        return null combination is invalid
     */
-    fun getPasswords(clientKeyPinData: ClientKeyPinData) : PasswordsData?{
-        val result : PasswordsData? = try{
-            webClient.post().uri("save").body(clientKeyPinData, ClientKeyPinData::class.java).retrieve().bodyToMono(PasswordsData::class.java).block()
+    fun getPasswords(clientKeyPinData: ClientKeyPinData) : Array<Password>?{
+        val result : Array<Password>? = try{
+            webClient.post().uri("get").body(Mono.just(clientKeyPinData), ClientKeyPinData::class.java).retrieve().bodyToMono(Array<Password>::class.java).block()
         }catch (e : WebClientRequestException){
             null
         }

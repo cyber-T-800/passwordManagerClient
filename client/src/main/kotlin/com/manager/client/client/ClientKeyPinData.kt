@@ -1,7 +1,7 @@
 package com.manager.client.client
 
 /*
-    data class for sending stay-login key and pin over netword
+    data class for sending stay-login key and pin over network
  */
 data class ClientKeyPinData(
     var key : String,

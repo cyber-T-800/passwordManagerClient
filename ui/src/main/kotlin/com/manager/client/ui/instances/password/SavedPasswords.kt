@@ -2,7 +2,7 @@ package com.manager.client.ui.instances.password
 
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
-import com.manager.client.password.PasswordsData
+import com.manager.client.password.Password
 import java.io.File
 
 object SavedPasswords {
@@ -15,6 +15,14 @@ object SavedPasswords {
     fun save() {
         var saveFile = File(savedFilePath)
         saveFile.writeText(Gson().toJson(savedPasswordsData))
+    }
+
+    fun getByClientId(clientID : Long) : List<Password>{
+        var result : MutableList<Password> = mutableListOf()
+        for(p in savedPasswordsData.passwords)
+            if(p.clientId == clientID)
+                result[result.lastIndex + 1] = p
+        return result
     }
 
 

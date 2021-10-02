@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.manager.client.ui.controllers.main.MainController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manager.client.ui.controllers.main.MainController">
+   <children>
+      <TableView layoutX="25.0" layoutY="50.0" prefHeight="280.0" prefWidth="550.0" fx:id="listOfPasswords">
+        <columns>
+          <TableColumn prefWidth="200" text="website" />
+          <TableColumn prefWidth="150" text="username" />
+            <TableColumn prefWidth="200" text="password"/>
+        </columns>
+      </TableView>
+   </children>
 </AnchorPane>
