@@ -1,4 +1,4 @@
-package com.manager.client.ui.instances
+package com.manager.client.ui.instances.client
 
 import com.manager.client.client.Client
 

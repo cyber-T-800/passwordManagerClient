@@ -1,4 +1,4 @@
-package com.manager.client.ui.instances
+package com.manager.client.ui.instances.client
 
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException

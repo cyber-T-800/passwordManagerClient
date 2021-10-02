@@ -3,7 +3,7 @@ package com.manager.client.ui.controllers.login
 import com.manager.client.client.Client
 import com.manager.client.WebClientManagerClient
 import com.manager.client.ui.PasswordManagerUI
-import com.manager.client.ui.instances.LoggedClient
+import com.manager.client.ui.instances.client.LoggedClient
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader

@@ -1,7 +1,7 @@
 package com.manager.client.ui
 
 
-import com.manager.client.ui.instances.LoggedClients
+import com.manager.client.ui.instances.client.LoggedClients
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
