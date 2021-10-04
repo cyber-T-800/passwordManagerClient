@@ -1,7 +1,11 @@
 package com.manager.client.ui.controllers.main
 
+import com.manager.client.WebClientManagerPassword
+import com.manager.client.client.ClientKeyPinData
 import com.manager.client.password.Password
+import com.manager.client.password.PasswordRequestData
 import com.manager.client.ui.PasswordManagerUI
+import com.manager.client.ui.instances.client.LoggedClient
 import com.manager.client.ui.instances.password.LoggedClientPasswords
 import com.manager.client.ui.instances.password.SavedPasswords
 import javafx.event.ActionEvent
@@ -47,6 +51,7 @@ class ShowPasswordController {
         if (alert.showAndWait().get() == ButtonType.OK){
             LoggedClientPasswords -= selectedPassword
             SavedPasswords -= selectedPassword
+            WebClientManagerPassword().deletePassword(PasswordRequestData(ClientKeyPinData(LoggedClient.key, LoggedClient.password), selectedPassword))
             SavedPasswords.save()
             val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/main-view.fxml"))
             val stage = (actionEvent.source as Node).scene.window as Stage
@@ -82,6 +87,7 @@ class ShowPasswordController {
                 it.website = website.text
                 it.username = username.text
                 it.encryptedPassword = password.text
+                WebClientManagerPassword().editPassword(PasswordRequestData(ClientKeyPinData(LoggedClient.key, LoggedClient.password), it))
             }
 
     }

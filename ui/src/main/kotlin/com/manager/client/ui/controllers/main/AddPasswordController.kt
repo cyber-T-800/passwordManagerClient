@@ -15,7 +15,6 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.control.Alert
-import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
 import javafx.stage.Stage
 
@@ -41,7 +40,7 @@ class AddPasswordController {
         val password = Password(0, website.text, username.text, password.text, LoggedClient.id)
 
 
-        val result = WebClientManagerPassword().save(PasswordRequestData(ClientKeyPinData(LoggedClient.key, LoggedClient.password), password))
+        val result = WebClientManagerPassword().savePassword(PasswordRequestData(ClientKeyPinData(LoggedClient.key, LoggedClient.password), password))
 
         if(result == -1L){
             val alert = Alert(Alert.AlertType.WARNING)
