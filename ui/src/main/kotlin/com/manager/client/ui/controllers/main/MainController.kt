@@ -49,8 +49,7 @@ class MainController {
             SavedPasswords += passwordsFromServer
             SavedPasswords.save()
         }
-
-
+        LoggedClientPasswords.decryptAllPasswords()
         listOfPasswords.items.addAll(LoggedClientPasswords.passwords)
     }
 

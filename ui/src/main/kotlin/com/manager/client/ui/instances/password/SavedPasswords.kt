@@ -1,9 +1,13 @@
 package com.manager.client.ui.instances.password
 
+import com.example.manager.utils.AsymmetricalCryptoUtils
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.manager.client.password.Password
+import com.manager.client.ui.instances.client.LoggedClient
 import java.io.File
+import java.lang.IllegalArgumentException
+import javax.crypto.BadPaddingException
 
 object SavedPasswords {
 
@@ -22,12 +26,37 @@ object SavedPasswords {
 
     @Override
     operator fun plusAssign(password: Password){
-        if(!passwordAlreadySaved(password.id))
+        if(!passwordAlreadySaved(password.id)) {
             savedPasswordsData.passwords += password
+        }
+    }
+
+    fun encryptAllPasswords(){
+        for(p in savedPasswordsData.passwords){
+            encryptPassword(p)
+        }
+    }
+
+    fun encryptPassword(password: Password){
+        if(!passwordIsEncrypted(password)){
+            password.encryptedPassword = AsymmetricalCryptoUtils.encryptMessageToBase64(LoggedClient.keyPair.public, password.encryptedPassword)
+        }
+    }
+
+    private fun passwordIsEncrypted(password: Password): Boolean {
+        try {
+            AsymmetricalCryptoUtils.decryptMessage(LoggedClient.keyPair.private, password.encryptedPassword)
+        }catch (e : BadPaddingException){
+            return false
+        }catch (e : IllegalArgumentException){
+            return false
+        }
+        return true
     }
 
     fun save() {
         var saveFile = File(savedFilePath)
+        encryptAllPasswords()
         saveFile.writeText(Gson().toJson(savedPasswordsData))
     }
 
@@ -59,18 +88,18 @@ object SavedPasswords {
         var saveFile = File(savedFilePath)
         //confirms if file exists
         if(!saveFile.exists()) {
-            saveFile.writeText(Gson().toJson(savedPasswordsData))
+            save()
         }
         //confirms if file isn't empty
         else if(saveFile.readText().trim() == ""){
-            saveFile.writeText(Gson().toJson(savedPasswordsData))
+            save()
         }
         //confirms if content of file is in right form
         savedPasswordsData = try{
             var saveFileCheck = Gson().fromJson(saveFile.readText(), PasswordsData::class.java)
             saveFileCheck!!
         }catch (e : JsonSyntaxException){
-            saveFile.writeText(Gson().toJson(savedPasswordsData))
+            save()
             PasswordsData()
         }
     }

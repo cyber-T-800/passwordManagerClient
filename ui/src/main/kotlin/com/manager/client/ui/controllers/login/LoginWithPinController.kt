@@ -1,5 +1,7 @@
 package com.manager.client.ui.controllers.login
 
+import com.example.manager.utils.AsymmetricalCryptoUtils
+import com.example.manager.utils.SymmetricalCryptoUtils
 import com.manager.client.client.ClientKeyPinData
 import com.manager.client.WebClientManagerClient
 import com.manager.client.ui.PasswordManagerUI
@@ -14,6 +16,7 @@ import javafx.scene.control.Alert
 import javafx.scene.control.Label
 import javafx.scene.control.PasswordField
 import javafx.stage.Stage
+import java.security.KeyPair
 import java.security.MessageDigest
 import java.util.*
 
@@ -36,9 +39,9 @@ class LoginWithPinController {
             alert.showAndWait()
             return
         }
-        val privateKey = WebClientManagerClient().loginWithPin(ClientKeyPinData(LoggedClient.key, pin.text))
+        val privateKeyFromServer = WebClientManagerClient().loginWithPin(ClientKeyPinData(LoggedClient.key, pin.text))
         //if can't connect server
-        if(privateKey == "-1"){
+        if(privateKeyFromServer == "-1"){
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
             alert.headerText = "Cannot connect to server! Trying to login on local device..."
@@ -61,7 +64,7 @@ class LoginWithPinController {
 
         }
         //if typed pin is invalid
-        if(privateKey == "0"){
+        if(privateKeyFromServer == "0"){
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
             alert.headerText = "Pin code is invalid!"
@@ -71,7 +74,7 @@ class LoginWithPinController {
         }
         //if stay login key is invalid
         //delete client instance from device
-        if(privateKey == "1"){
+        if(privateKeyFromServer == "1"){
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Warning"
             alert.headerText = "Stay login key is invalid, deleting instance from device ...!"
@@ -97,7 +100,18 @@ class LoginWithPinController {
         }
 
         //save non-hashed pin to logged client instance
-        LoggedClient.password = pin.text
+        //load private and public key and save it to instance
+        LoggedClient.let{
+            it.password = pin.text
+            val secretKey = SymmetricalCryptoUtils.getKeyFromPassword(it.password)
+            val privateKeyInBytes = SymmetricalCryptoUtils.decryptMessage(secretKey, privateKeyFromServer)
+
+            //save decrypted crypto keys to instance
+            val privateKey = AsymmetricalCryptoUtils.privateKeyFromBytes(privateKeyInBytes)
+            var publicKey = AsymmetricalCryptoUtils.publicKeyFromPrivate(privateKey)
+            it.keyPair = KeyPair(publicKey, privateKey)
+        }
+
 
 
         //if everything is in order, change to main view
