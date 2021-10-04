@@ -6,7 +6,6 @@ import com.manager.client.password.Password
 import com.manager.client.ui.PasswordManagerUI
 import com.manager.client.ui.instances.client.LoggedClient
 import com.manager.client.ui.instances.password.LoggedClientPasswords
-import com.manager.client.ui.instances.password.LoggedClientPasswords.plusAssign
 import com.manager.client.ui.instances.password.SavedPasswords
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
@@ -16,7 +15,9 @@ import javafx.scene.Scene
 import javafx.scene.control.Alert
 import javafx.scene.control.TableView
 import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.input.MouseEvent
 import javafx.stage.Stage
+import java.lang.NullPointerException
 
 class MainController {
 
@@ -49,10 +50,12 @@ class MainController {
             SavedPasswords += passwordsFromServer
             SavedPasswords.save()
         }
+
         LoggedClientPasswords.decryptAllPasswords()
-        listOfPasswords.items.addAll(LoggedClientPasswords.passwords)
-        for(p in listOfPasswords.items){
-            p.encryptedPassword = "*********"
+
+        //add all passwords to table with hidden passwords
+        for(p in LoggedClientPasswords.passwords){
+            listOfPasswords.items += Password(p.id, p.website, p.username, "********", p.clientId)
         }
     }
 
@@ -63,5 +66,24 @@ class MainController {
         val scene = Scene(fxmlLoader.load())
         stage.scene = scene
         stage.show()
+    }
+
+    fun clickItem(mouseEvent: MouseEvent) {
+        val selectedPassword: Password = try {
+            LoggedClientPasswords.getByID(listOfPasswords.selectionModel.selectedItem.id)!!
+        }catch (e : NullPointerException){
+            return
+        }
+
+        //change view to show password view
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/show-password-view.fxml"))
+        val stage = (mouseEvent.source as Node).scene.window as Stage
+        val scene = Scene(fxmlLoader.load())
+        fxmlLoader.getController<ShowPasswordController>().setPassword(selectedPassword)
+        stage.scene = scene
+        stage.show()
+
+        return
+
     }
 }

@@ -17,11 +17,18 @@ object LoggedClientPasswords {
 
     @Override
     operator fun plusAssign(password: Password){
-        if(!passwordAlreadyExists(password.id))
+        if(!passwordExists(password.id))
             passwords += password
     }
 
-    fun passwordAlreadyExists(ID : Long) : Boolean{
+    @Override
+    operator fun minusAssign(password: Password){
+        if(passwordExists(password.id)){
+            passwords -= getByID(password.id)!!
+        }
+    }
+
+    fun passwordExists(ID : Long) : Boolean{
         return  getByID(ID) != null
     }
 

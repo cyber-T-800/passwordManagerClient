@@ -27,7 +27,7 @@ class AddPasswordController {
     lateinit var username : TextField
 
     @FXML
-    lateinit var password : PasswordField
+    lateinit var password : TextField
 
     fun save(actionEvent: ActionEvent) {
         if(website.text.isEmpty() || username.text.isEmpty() || password.text.isEmpty()){

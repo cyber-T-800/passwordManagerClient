@@ -31,6 +31,13 @@ object SavedPasswords {
         }
     }
 
+    @Override
+    operator fun minusAssign(password: Password){
+        if(passwordAlreadySaved(password.id)){
+            savedPasswordsData.passwords -= getByID(password.id)!!
+        }
+    }
+
     fun encryptAllPasswords(){
         for(p in savedPasswordsData.passwords){
             if(p.clientId == LoggedClient.id)

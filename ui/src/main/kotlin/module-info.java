@@ -5,6 +5,7 @@ module com.manager.client.ui {
     requires javafx.controls;
     requires com.google.gson;
     requires client;
+    requires java.desktop;
 
     opens com.manager.client.ui to javafx.fxml, com.google.gson;
     opens com.manager.client.ui.controllers.main to com.google.gson, javafx.fxml;
