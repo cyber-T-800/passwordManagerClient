@@ -13,6 +13,7 @@ import javafx.scene.control.TableView
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.input.MouseEvent
 import javafx.stage.Stage
+import java.lang.NullPointerException
 
 class SelectClientController {
 
@@ -35,7 +36,12 @@ class SelectClientController {
      */
     @FXML
     fun clickItem(mouseEvent: MouseEvent) {
-        var selectedClient: Client = listOfClients.selectionModel.selectedItem
+
+        var selectedClient: Client = try {
+                listOfClients.selectionModel.selectedItem
+            }catch (e : NullPointerException){
+                return
+            }
 
         LoggedClient.let {
             it.username = selectedClient.username

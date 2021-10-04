@@ -51,6 +51,9 @@ class MainController {
         }
         LoggedClientPasswords.decryptAllPasswords()
         listOfPasswords.items.addAll(LoggedClientPasswords.passwords)
+        for(p in listOfPasswords.items){
+            p.encryptedPassword = "*********"
+        }
     }
 
     //change to add password view

@@ -33,7 +33,8 @@ object SavedPasswords {
 
     fun encryptAllPasswords(){
         for(p in savedPasswordsData.passwords){
-            encryptPassword(p)
+            if(p.clientId == LoggedClient.id)
+                encryptPassword(p)
         }
     }
 
