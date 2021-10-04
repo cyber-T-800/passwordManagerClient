@@ -12,16 +12,41 @@ object SavedPasswords {
 
     var savedPasswordsData : PasswordsData = PasswordsData()
 
+    //override assign operator to add passwords to saved passwords instance
+    //used for filter off passwords that are actually in instance
+    @Override
+    operator fun plusAssign(passwordsList: Array<Password>){
+        for (p in passwordsList)
+            this += p
+    }
+
+    @Override
+    operator fun plusAssign(password: Password){
+        if(!passwordAlreadySaved(password.id))
+            savedPasswordsData.passwords += password
+    }
+
     fun save() {
         var saveFile = File(savedFilePath)
         saveFile.writeText(Gson().toJson(savedPasswordsData))
+    }
+
+    fun getByID(ID: Long) : Password?{
+        for(p in savedPasswordsData.passwords)
+            if(p.id == ID)
+                return p
+        return null
+    }
+
+    fun passwordAlreadySaved(ID: Long) : Boolean{
+        return getByID(ID) != null
     }
 
     fun getByClientId(clientID : Long) : List<Password>{
         var result : MutableList<Password> = mutableListOf()
         for(p in savedPasswordsData.passwords)
             if(p.clientId == clientID)
-                result[result.lastIndex + 1] = p
+                result += p
         return result
     }
 

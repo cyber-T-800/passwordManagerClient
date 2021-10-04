@@ -81,8 +81,8 @@ class AddPasswordController {
 
         password.id = result
 
-        LoggedClientPasswords.passwords += password
-        SavedPasswords.savedPasswordsData.passwords += password
+        LoggedClientPasswords += password
+        SavedPasswords += password
         SavedPasswords.save()
 
         val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/main-view.fxml"))

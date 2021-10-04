@@ -5,8 +5,8 @@ import com.manager.client.client.ClientKeyPinData
 import com.manager.client.password.Password
 import com.manager.client.ui.PasswordManagerUI
 import com.manager.client.ui.instances.client.LoggedClient
-import com.manager.client.ui.instances.client.LoggedClientsData
 import com.manager.client.ui.instances.password.LoggedClientPasswords
+import com.manager.client.ui.instances.password.LoggedClientPasswords.plusAssign
 import com.manager.client.ui.instances.password.SavedPasswords
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
@@ -32,7 +32,8 @@ class MainController {
 
         //load passwords saved on device
         SavedPasswords.load()
-        LoggedClientPasswords.passwords += SavedPasswords.getByClientId(LoggedClient.id)
+        LoggedClientPasswords += SavedPasswords.getByClientId(LoggedClient.id).toTypedArray()
+
 
         //retrieve passwords from server
         val passwordsFromServer = WebClientManagerPassword().getPasswords(ClientKeyPinData(LoggedClient.key, LoggedClient.password))
@@ -44,8 +45,8 @@ class MainController {
             alert.showAndWait()
             return
         }else{
-            LoggedClientPasswords.passwords += passwordsFromServer
-            SavedPasswords.savedPasswordsData.passwords += passwordsFromServer
+            LoggedClientPasswords += passwordsFromServer
+            SavedPasswords += passwordsFromServer
             SavedPasswords.save()
         }
 
