@@ -123,5 +123,13 @@ class LoginWithPinController {
 
     }
 
+    fun back(actionEvent: ActionEvent) {
+        val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/select-client-view.fxml"))
+        val stage = (actionEvent.source as Node).scene.window as Stage
+        val scene = Scene(fxmlLoader.load())
+        stage.scene = scene
+        stage.show()
+    }
+
 
 }

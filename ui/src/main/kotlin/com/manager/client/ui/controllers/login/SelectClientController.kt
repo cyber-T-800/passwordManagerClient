@@ -44,6 +44,7 @@ class SelectClientController {
             }
 
         LoggedClient.let {
+            it.id = selectedClient.id
             it.username = selectedClient.username
             it.password = selectedClient.password
 

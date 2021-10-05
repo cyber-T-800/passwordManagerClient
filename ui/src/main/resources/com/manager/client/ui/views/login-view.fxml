@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manager.client.ui.controllers.login.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../stylesheets/base-styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manager.client.ui.controllers.login.LoginController">
    <children>
       <Label layoutX="268.0" layoutY="42.0" text="Login">
          <font>
@@ -28,14 +28,10 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Button layoutX="261.0" layoutY="233.0" mnemonicParsing="false" onAction="#login" text="Login">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
+      <Button layoutX="261.0" layoutY="233.0" mnemonicParsing="false" onAction="#login" style="-fx-font-size: 20" text="Login" />
       <Label layoutX="190.0" layoutY="300.0" text="You don't have account? Please sign up" />
-      <Button layoutX="265.0" layoutY="318.0" mnemonicParsing="false" onAction="#signUp" text="Sign Up" />
+      <Button layoutX="271.0" layoutY="318.0" mnemonicParsing="false" onAction="#signUp" text="Sign Up" />
       <Label layoutX="178.0" layoutY="344.0" text="Already logged? Continue to select account" />
-      <Button layoutX="247.0" layoutY="362.0" mnemonicParsing="false" onAction="#selectAccount" text="Select account" />
+      <Button layoutX="253.0" layoutY="362.0" mnemonicParsing="false" onAction="#selectAccount" text="Select account" />
    </children>
 </AnchorPane>

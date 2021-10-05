@@ -35,7 +35,6 @@ class MainController {
         SavedPasswords.load()
         LoggedClientPasswords += SavedPasswords.getByClientId(LoggedClient.id).toTypedArray()
 
-
         //retrieve passwords from server
         val passwordsFromServer = WebClientManagerPassword().getPasswords(ClientKeyPinData(LoggedClient.key, LoggedClient.password))
         if(passwordsFromServer == null){

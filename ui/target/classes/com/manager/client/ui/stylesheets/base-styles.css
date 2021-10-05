@@ -1,0 +1,68 @@
+.root{
+    -fx-background-color: #111111;
+    -fx-text-fill: white;
+}
+
+.label{
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.text-field{
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: #333333;
+    -fx-text-fill: white;
+}
+
+.password-field{
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: #333333;
+    -fx-text-fill: white;
+}
+
+.button{
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-width: 0;
+    -fx-background-color: #222222;
+    -fx-background-radius: 0;
+}
+
+.table-view{
+    -fx-background-color: #111111;
+    -fx-background-radius: 0;
+}
+
+.table-column{
+    -fx-background-color: #222222;
+    -fx-text-fill: white;
+    -fx-background-radius: 0;
+    -fx-alignment: CENTER;
+}
+
+.table-view .table-cell{
+    -fx-border-color: black;
+}
+
+.table-view .column-header *{
+    -fx-background-color: #111111;
+}
+
+/*
+    remove scrollbar in tables
+ */
+.table-view .scroll-bar * {
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}
+
+.alert *{
+    -fx-background-color: black;
+}

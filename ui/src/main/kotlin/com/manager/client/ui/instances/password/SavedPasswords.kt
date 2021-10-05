@@ -8,6 +8,7 @@ import com.manager.client.ui.instances.client.LoggedClient
 import java.io.File
 import java.lang.IllegalArgumentException
 import javax.crypto.BadPaddingException
+import javax.crypto.IllegalBlockSizeException
 
 object SavedPasswords {
 
@@ -47,7 +48,11 @@ object SavedPasswords {
 
     fun encryptPassword(password: Password){
         if(!passwordIsEncrypted(password)){
-            password.encryptedPassword = AsymmetricalCryptoUtils.encryptMessageToBase64(LoggedClient.keyPair.public, password.encryptedPassword)
+            password.encryptedPassword =try {
+                AsymmetricalCryptoUtils.encryptMessageToBase64(LoggedClient.keyPair.public, password.encryptedPassword)
+            }catch (e : IllegalBlockSizeException){
+                password.encryptedPassword
+            }
         }
     }
 

@@ -104,7 +104,7 @@ object AsymmetricalCryptoUtils{
         return encryptMessageToBase64(initializeEncryptCipher(privateKey), message)
     }
     fun encryptMessageToBase64(cipher : Cipher, message : String) : String{
-        return Base64.getEncoder().encodeToString(cipher.doFinal(message.toByteArray()))
+         return Base64.getEncoder().encodeToString(cipher.doFinal(message.toByteArray()))
     }
     fun encryptMessageToBase64(publicKey: PublicKey, message: String) : String{
         return encryptMessageToBase64(initializeEncryptCipher(publicKey), message)
