@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manager.client.ui.controllers.login.SetUpPinController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../stylesheets/base-styles.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manager.client.ui.controllers.login.SetUpPinController">
    <children>
       <Label layoutX="201.0" layoutY="40.0" text="Registration complete.">
          <font>
@@ -24,10 +24,6 @@
            </font>
        </Label>
        <PasswordField fx:id="pin2" layoutX="288.0" layoutY="187.0" />
-      <Button layoutX="254.0" layoutY="263.0" mnemonicParsing="false" onAction="#submit" text="Submit">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Button>
+      <Button layoutX="254.0" layoutY="263.0" mnemonicParsing="false" onAction="#submit" text="Submit" style="-fx-font-size: 15"/>
    </children>
 </AnchorPane>

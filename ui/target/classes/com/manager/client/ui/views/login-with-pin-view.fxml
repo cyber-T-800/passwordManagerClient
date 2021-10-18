@@ -2,17 +2,13 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manager.client.ui.controllers.login.LoginWithPinController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../stylesheets/base-styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manager.client.ui.controllers.login.LoginWithPinController">
    <children>
-      <Label fx:id="label" alignment="CENTER" layoutX="0" layoutY="94.0" prefWidth="600" style="-fx-text-alignment: center" text="Type Pin code for ">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
+      <Label fx:id="label" alignment="CENTER" layoutX="0" layoutY="94.0" prefWidth="600" style="-fx-text-alignment: center; -fx-font-size: 23" text="Type Pin code for " />
       <PasswordField fx:id="pin" layoutX="226.0" layoutY="188.0" />
-      <Button layoutX="273.0" layoutY="244.0" mnemonicParsing="false" text="Submit" onAction="#submit"/>
+      <Button layoutX="272.0" layoutY="244.0" mnemonicParsing="false" onAction="#submit" text="Submit" />
+      <Button layoutX="278.0" layoutY="285.0" mnemonicParsing="false" text="Back" onAction="#back"/>
 
    </children>
 </AnchorPane>

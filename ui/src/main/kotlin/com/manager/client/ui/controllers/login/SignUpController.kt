@@ -2,6 +2,8 @@ package com.manager.client.ui.controllers.login
 
 import com.manager.client.client.Client
 import com.manager.client.WebClientManagerClient
+import com.manager.client.client.ClientKeyIdData
+import com.manager.client.exceptions.ServerException
 import com.manager.client.ui.PasswordManagerUI
 import com.manager.client.ui.instances.client.LoggedClient
 import javafx.event.ActionEvent
@@ -14,6 +16,9 @@ import javafx.scene.control.Alert
 import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
 import javafx.stage.Stage
+import org.springframework.web.reactive.function.client.WebClientRequestException
+import org.springframework.web.reactive.function.client.WebClientResponseException
+import java.net.ConnectException
 
 class SignUpController {
 
@@ -59,24 +64,19 @@ class SignUpController {
         var client = Client(0, username.text, password.text, "")
 
         //create client from fields, send it to server and receive stay-login key
-        var clientKeyIdData = WebClientManagerClient().register(client)
-
-
-        //if cannot connect server
-        if(clientKeyIdData.key == "-1"){
+        var clientKeyIdData = try {
+            WebClientManagerClient().register(client)
+        }catch (e: WebClientRequestException) {
             var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Connection Error"
             alert.headerText = "Can't connect to server! Please try again later."
 
             alert.showAndWait()
             return
-        }
-
-        //if username is already taken
-        if(clientKeyIdData.key == "0"){
+        }catch (e : WebClientResponseException.BadRequest){
             var alert = Alert(Alert.AlertType.WARNING)
-            alert.title = "Warning"
-            alert.headerText = "Username is used by someone already, please type another"
+            alert.title = e.statusText
+            alert.headerText = ServerException.fromBadRequestException(e).message
 
             alert.showAndWait()
             return

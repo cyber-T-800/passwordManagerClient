@@ -4,6 +4,7 @@ import com.example.manager.utils.AsymmetricalCryptoUtils
 import com.example.manager.utils.SymmetricalCryptoUtils
 import com.manager.client.client.ClientKeyPinData
 import com.manager.client.WebClientManagerClient
+import com.manager.client.exceptions.ServerException
 import com.manager.client.ui.PasswordManagerUI
 import com.manager.client.ui.instances.client.LoggedClient
 import com.manager.client.ui.instances.client.LoggedClients
@@ -16,6 +17,8 @@ import javafx.scene.control.Alert
 import javafx.scene.control.Label
 import javafx.scene.control.PasswordField
 import javafx.stage.Stage
+import org.springframework.web.reactive.function.client.WebClientRequestException
+import org.springframework.web.reactive.function.client.WebClientResponseException
 import java.security.KeyPair
 import java.security.MessageDigest
 import java.util.*
@@ -39,64 +42,22 @@ class LoginWithPinController {
             alert.showAndWait()
             return
         }
-        val privateKeyFromServer = WebClientManagerClient().loginWithPin(ClientKeyPinData(LoggedClient.key, pin.text))
-        //if can't connect server
-        if(privateKeyFromServer == "-1"){
+        val privateKeyFromServer = try {
+            WebClientManagerClient().loginWithPin(ClientKeyPinData(LoggedClient.key, pin.text))
+        } catch (e: WebClientRequestException) {
             var alert = Alert(Alert.AlertType.WARNING)
-            alert.title = "Warning"
-            alert.headerText = "Cannot connect to server! Trying to login on local device..."
-            alert.showAndWait()
-
-            val bytes = MessageDigest
-                .getInstance("SHA-256")
-                .digest(pin.text.toByteArray())
-            val hashedPin = Base64.getEncoder().encodeToString(bytes)
-
-            //if pin is invalid
-            if (hashedPin != LoggedClient.password){
-                var alert = Alert(Alert.AlertType.WARNING)
-                alert.title = "Warning"
-                alert.headerText = "Pin code is invalid!"
-
-                alert.showAndWait()
-                return
-            }
-
-        }
-        //if typed pin is invalid
-        if(privateKeyFromServer == "0"){
-            var alert = Alert(Alert.AlertType.WARNING)
-            alert.title = "Warning"
-            alert.headerText = "Pin code is invalid!"
+            alert.title = "Connection Error"
+            alert.headerText = "Can't connect to server! Please try again later."
 
             alert.showAndWait()
             return
-        }
-        //if stay login key is invalid
-        //delete client instance from device
-        if(privateKeyFromServer == "1"){
+        }catch (e : WebClientResponseException.BadRequest){
             var alert = Alert(Alert.AlertType.WARNING)
-            alert.title = "Warning"
-            alert.headerText = "Stay login key is invalid, deleting instance from device ...!"
+            alert.title = e.statusText
+            alert.headerText = ServerException.fromBadRequestException(e).message
 
-            LoggedClients.getClients().remove(LoggedClient.key)
-            LoggedClients.save()
             alert.showAndWait()
-            if(LoggedClients.getClients().size == 0){
-                val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/login-view.fxml"))
-                val stage = (actionEvent.source as Node).scene.window as Stage
-                val scene = Scene(fxmlLoader.load())
-                stage.scene = scene
-                stage.show()
-                return
-            }else{
-                val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/select-client-view.fxml"))
-                val stage = (actionEvent.source as Node).scene.window as Stage
-                val scene = Scene(fxmlLoader.load())
-                stage.scene = scene
-                stage.show()
-                return
-            }
+            return
         }
 
         //save non-hashed pin to logged client instance

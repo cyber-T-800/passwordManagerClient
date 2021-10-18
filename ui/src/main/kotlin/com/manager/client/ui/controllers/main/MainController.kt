@@ -2,6 +2,7 @@ package com.manager.client.ui.controllers.main
 
 import com.manager.client.WebClientManagerPassword
 import com.manager.client.client.ClientKeyPinData
+import com.manager.client.exceptions.ServerException
 import com.manager.client.password.Password
 import com.manager.client.ui.PasswordManagerUI
 import com.manager.client.ui.instances.client.LoggedClient
@@ -17,6 +18,8 @@ import javafx.scene.control.TableView
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.input.MouseEvent
 import javafx.stage.Stage
+import org.springframework.web.reactive.function.client.WebClientRequestException
+import org.springframework.web.reactive.function.client.WebClientResponseException
 import java.lang.NullPointerException
 
 class MainController {
@@ -25,35 +28,39 @@ class MainController {
     lateinit var listOfPasswords : TableView<Password>
 
     @FXML
-    fun initialize(){
+    fun initialize() {
         //set columns of table
-        listOfPasswords.columns[0].cellValueFactory  = PropertyValueFactory<Password, String>("website")
-        listOfPasswords.columns[1].cellValueFactory  = PropertyValueFactory<Password, String>("username")
-        listOfPasswords.columns[2].cellValueFactory  = PropertyValueFactory<Password, String>("encryptedPassword")
+        listOfPasswords.columns[0].cellValueFactory = PropertyValueFactory<Password, String>("website")
+        listOfPasswords.columns[1].cellValueFactory = PropertyValueFactory<Password, String>("username")
+        listOfPasswords.columns[2].cellValueFactory = PropertyValueFactory<Password, String>("encryptedPassword")
 
         //load passwords saved on device
         SavedPasswords.load()
         LoggedClientPasswords += SavedPasswords.getByClientId(LoggedClient.id).toTypedArray()
 
         //retrieve passwords from server
-        val passwordsFromServer = WebClientManagerPassword().getPasswords(ClientKeyPinData(LoggedClient.key, LoggedClient.password))
-        if(passwordsFromServer == null){
-            val alert = Alert(Alert.AlertType.WARNING)
-            alert.title = "Connection Error"
-            alert.headerText = "Can't synchronise passwords with server."
-
-            alert.showAndWait()
-            return
-        }else{
+        try {
+            val passwordsFromServer = WebClientManagerPassword().getPasswords(ClientKeyPinData(LoggedClient.key, LoggedClient.password))!!
             LoggedClientPasswords += passwordsFromServer
             SavedPasswords += passwordsFromServer
-            SavedPasswords.save()
+        } catch (e: WebClientRequestException) {
+            var alert = Alert(Alert.AlertType.WARNING)
+            alert.title = "Connection Error"
+            alert.headerText = "Can't connect to server! Please try again later."
+
+            alert.showAndWait()
+        } catch (e: WebClientResponseException.BadRequest) {
+            var alert = Alert(Alert.AlertType.WARNING)
+            alert.title = e.statusText
+            alert.headerText = ServerException.fromBadRequestException(e).message
+
+            alert.showAndWait()
         }
 
         LoggedClientPasswords.decryptAllPasswords()
 
         //add all passwords to table with hidden passwords
-        for(p in LoggedClientPasswords.passwords){
+        for (p in LoggedClientPasswords.passwords) {
             listOfPasswords.items += Password(p.id, p.website, p.username, "********", p.clientId)
         }
     }

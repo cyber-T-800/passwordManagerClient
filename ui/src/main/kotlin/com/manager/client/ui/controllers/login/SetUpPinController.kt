@@ -5,6 +5,7 @@ import com.example.manager.utils.SymmetricalCryptoUtils
 import com.manager.client.client.Client
 import com.manager.client.client.ClientKeyPinData
 import com.manager.client.WebClientManagerClient
+import com.manager.client.exceptions.ServerException
 import com.manager.client.ui.PasswordManagerUI
 import com.manager.client.ui.instances.client.LoggedClient
 import com.manager.client.ui.instances.client.LoggedClients
@@ -16,6 +17,8 @@ import javafx.scene.Scene
 import javafx.scene.control.Alert
 import javafx.scene.control.PasswordField
 import javafx.stage.Stage
+import org.springframework.web.reactive.function.client.WebClientRequestException
+import org.springframework.web.reactive.function.client.WebClientResponseException
 import java.security.KeyPair
 import java.security.MessageDigest
 import java.util.*
@@ -71,18 +74,23 @@ class SetUpPinController {
         }
 
         //send pin to server, return private key of client
-        val privateKeyFromServer = WebClientManagerClient().registerSetPin(ClientKeyPinData(LoggedClient.key, pin1.text))
-
-        //if can't connect to server
-        if(LoggedClient.key == "-1"){
-            val alert = Alert(Alert.AlertType.WARNING)
+        val privateKeyFromServer = try {
+            WebClientManagerClient().registerSetPin(ClientKeyPinData(LoggedClient.key, pin1.text))
+        } catch (e: WebClientRequestException) {
+            var alert = Alert(Alert.AlertType.WARNING)
             alert.title = "Connection Error"
             alert.headerText = "Can't connect to server! Please try again later."
 
             alert.showAndWait()
             return
-        }
+        }catch (e : WebClientResponseException.BadRequest){
+            var alert = Alert(Alert.AlertType.WARNING)
+            alert.title = e.statusText
+            alert.headerText = ServerException.fromBadRequestException(e).message
 
+            alert.showAndWait()
+            return
+        }
 
 
         LoggedClient.let {

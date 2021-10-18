@@ -23,6 +23,7 @@ object SavedPasswords {
     operator fun plusAssign(passwordsList: Array<Password>){
         for (p in passwordsList)
             this += p
+        save()
     }
 
     @Override

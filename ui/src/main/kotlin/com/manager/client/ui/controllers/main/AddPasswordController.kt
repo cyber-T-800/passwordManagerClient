@@ -2,6 +2,7 @@ package com.manager.client.ui.controllers.main
 
 import com.manager.client.WebClientManagerPassword
 import com.manager.client.client.ClientKeyPinData
+import com.manager.client.exceptions.ServerException
 import com.manager.client.password.Password
 import com.manager.client.password.PasswordRequestData
 import com.manager.client.ui.PasswordManagerUI
@@ -17,6 +18,8 @@ import javafx.scene.Scene
 import javafx.scene.control.Alert
 import javafx.scene.control.TextField
 import javafx.stage.Stage
+import org.springframework.web.reactive.function.client.WebClientRequestException
+import org.springframework.web.reactive.function.client.WebClientResponseException
 
 class AddPasswordController {
     @FXML
@@ -40,49 +43,37 @@ class AddPasswordController {
         val password = Password(0, website.text, username.text, password.text, LoggedClient.id)
 
 
-        val result = WebClientManagerPassword().savePassword(PasswordRequestData(ClientKeyPinData(LoggedClient.key, LoggedClient.password), password))
+        val result = try {
+            WebClientManagerPassword().savePassword(
+                PasswordRequestData(
+                    ClientKeyPinData(
+                        LoggedClient.key,
+                        LoggedClient.password
+                    ), password
+                )
+            )
+        }
+        catch (e: WebClientRequestException) {
+            var alert = Alert(Alert.AlertType.WARNING)
+            alert.title = "Connection Error"
+            alert.headerText = "Can't connect to server! Please try again later."
 
-        if(result == -1L){
-            val alert = Alert(Alert.AlertType.WARNING)
-            alert.title = "Warning"
-            alert.headerText = "can't connect to server, try again later"
+            alert.showAndWait()
+            return
+        }catch (e : WebClientResponseException.BadRequest){
+            var alert = Alert(Alert.AlertType.WARNING)
+            alert.title = e.statusText
+            alert.headerText = ServerException.fromBadRequestException(e).message
+
             alert.showAndWait()
             return
         }
-        else if(result == 0L){
-            val alert = Alert(Alert.AlertType.WARNING)
-            alert.title = "Warning"
-            alert.headerText = "logged client instance is invalid, logging off device..."
 
-            //remove logged client instance off device
-            //if instance is deactivated on server
-            LoggedClients.getClients().remove(LoggedClient.key)
-            LoggedClients.save()
-            alert.showAndWait()
-            if(LoggedClients.getClients().size == 0){
-                val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/login-view.fxml"))
-                val stage = (actionEvent.source as Node).scene.window as Stage
-                val scene = Scene(fxmlLoader.load())
-                stage.scene = scene
-                stage.show()
-                return
-            }else{
-                val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/select-client-view.fxml"))
-                val stage = (actionEvent.source as Node).scene.window as Stage
-                val scene = Scene(fxmlLoader.load())
-                stage.scene = scene
-                stage.show()
-                return
-            }
-            alert.showAndWait()
-            return
-        }
 
         password.id = result
 
         LoggedClientPasswords += password
         SavedPasswords += password
-        SavedPasswords.save()
 
         val fxmlLoader = FXMLLoader(PasswordManagerUI::class.java.getResource("views/main-view.fxml"))
         val stage = (actionEvent.source as Node).scene.window as Stage

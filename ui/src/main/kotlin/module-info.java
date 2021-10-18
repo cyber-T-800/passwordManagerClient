@@ -7,6 +7,7 @@ module com.manager.client.ui {
     requires client;
     requires java.desktop;
     requires org.kordamp.bootstrapfx.core;
+    requires spring.webflux;
 
     opens com.manager.client.ui to javafx.fxml, com.google.gson;
     opens com.manager.client.ui.controllers.main to com.google.gson, javafx.fxml;
